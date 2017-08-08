@@ -45,6 +45,16 @@ public class Solution implements Runnable {
         }
     }
 /***************************************************************************************/
+    public void input() {
+        Integer kase = readLineAsInteger();
+        while (kase > 0) {
+            Integer noOfTable = readLineAsInteger();
+        }
+    }
+
+    public void solve() {
+
+    }
 
     @Override
     public void run() {
