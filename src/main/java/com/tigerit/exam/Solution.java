@@ -22,27 +22,38 @@ public class Solution implements Runnable {
             while (noOfTable > 0) {
                 String tableName = readLine();
                 Integer[] values = getIntFromLine(readLine());
-                this.tables[itr++] = new Table(tableName, values[0], values[1]);
+                Table currentTable = new Table(tableName, values[0], values[1]);
                 /* data insertion operation */
+                String[] columnNames = getStringArrayFromLine(readLine());
+                currentTable.insertColumnName(columnNames);
+                for(int i = 0; i < currentTable.getRowCount(); i++) {
+                    values = getIntFromLine(readLine());
+                    currentTable.insertValue(i, values);
+                }
+                this.tables[itr++] = currentTable;
+                noOfTable--;
             }
+            kase--;
         }
     }
 
     public void solve() {
-
+        input();
     }
 
     @Override
     public void run() {
-        // your application entry point
-
-        // sample input process
-        String string = readLine();
-
-        Integer integer = readLineAsInteger();
-
-        // sample output process
-        printLine(string);
-        printLine(integer);
+        solve();
+        printLine("ok");
+//        // your application entry point
+//
+//        // sample input process
+//        String string = readLine();
+//
+//        Integer integer = readLineAsInteger();
+//
+//        // sample output process
+//        printLine(string);
+//        printLine(integer);
     }
 }
