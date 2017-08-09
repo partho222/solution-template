@@ -26,27 +26,22 @@ public class Solution implements Runnable {
 
 /*************************************************************************************************************************/
     private void input() {
-        Integer kase = readLineAsInteger();
-        this.testCount = 0;
-        while (kase > 0) {
-            Integer noOfTable = readLineAsInteger();
-            this.tableMap = new HashMap<>();
-            while (noOfTable > 0) {
-                /* table creation operation */
-                String tableName = readLine();
-                Integer[] values = getIntFromLine(readLine());
-                Table currentTable = new Table(values[0], values[1]);
-                /* data insertion operation */
-                String[] columnNames = getStringArrayFromLine(readLine());
-                currentTable.insertColumnName(columnNames);
-                for(int i = 0; i < currentTable.getRowCount(); i++) {
-                    values = getIntFromLine(readLine());
-                    currentTable.insertValue(i, values);
-                }
-                this.tableMap.put(tableName, currentTable);
-                noOfTable--;
+        Integer noOfTable = readLineAsInteger();
+        this.tableMap = new HashMap<>();
+        while (noOfTable > 0) {
+            /* table creation operation */
+            String tableName = readLine();
+            Integer[] values = getIntFromLine(readLine());
+            Table currentTable = new Table(values[0], values[1]);
+            /* data insertion operation */
+            String[] columnNames = getStringArrayFromLine(readLine());
+            currentTable.insertColumnName(columnNames);
+            for(int i = 0; i < currentTable.getRowCount(); i++) {
+                values = getIntFromLine(readLine());
+                currentTable.insertValue(i, values);
             }
-            kase--;
+            this.tableMap.put(tableName, currentTable);
+            noOfTable--;
         }
     }
 
@@ -122,7 +117,6 @@ public class Solution implements Runnable {
 
     private void processQuery() {
         Integer noOfQuery = readLineAsInteger();
-        printLine("Test: " + ++this.testCount);
         while (noOfQuery > 0) {
             String selection = selectLineData(readLine()).trim();
             String fromTable = fromLineData(readLine()).trim();
@@ -156,7 +150,7 @@ public class Solution implements Runnable {
                 table2ColumnData[i] = table2Data[i][param2ColumnIndex];
             }
             this.isSameQuery = false;
-            resultStack = new ArrayList<>();
+            this.resultStack = new ArrayList<>();
             for(int i = 0; i < table1Rows; i++) {
                 for(int j = 0; j < table2Rows; j++) {
                     if(table1ColumnData[i].equals(table2ColumnData[j])) {
@@ -174,8 +168,14 @@ public class Solution implements Runnable {
 
 
     private void solve() {
-        input();
-        processQuery();
+        Integer kase = readLineAsInteger();
+        this.testCount = 0;
+        while (kase > 0) {
+            input();
+            printLine("Test: " + ++this.testCount);
+            processQuery();
+            kase--;
+        }
     }
 /*************************************************************************************************************************/
 
