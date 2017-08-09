@@ -45,11 +45,13 @@ public class Solution implements Runnable {
         }
     }
 
-    private void aliasDetection(String line) {
+    private Table aliasDetection(String line) {
         String[] data = getStringArrayFromLine(line);
+        Table table = this.tableMap.get(data[0].trim());
         if(data.length > 1) {
-            this.tableMap.put(data[1].trim(), this.tableMap.get(data[0].trim()));
+            this.tableMap.put(data[1].trim(), table);
         }
+        return table;
     }
 
     private void printValue(List<String> resultStack) {
@@ -120,9 +122,9 @@ public class Solution implements Runnable {
         while (noOfQuery > 0) {
             String selection = selectLineData(readLine()).trim();
             String fromTable = fromLineData(readLine()).trim();
-            aliasDetection(fromTable);
+            Table queryFromTable = aliasDetection(fromTable);
             String joinTable = joinLineData(readLine()).trim();
-            aliasDetection(joinTable);
+            Table queryJoinTable = aliasDetection(joinTable);
             String onCondition = onLineData(readLine()).trim();
             readLine();
 
@@ -154,9 +156,12 @@ public class Solution implements Runnable {
             for(int i = 0; i < table1Rows; i++) {
                 for(int j = 0; j < table2Rows; j++) {
                     if(table1ColumnData[i].equals(table2ColumnData[j])) {
-                        processResult(selection, i, j, table1, table2);
+                        if( table1.equals(queryFromTable) ) {
+                            processResult(selection, i, j, queryFromTable, queryJoinTable);
+                        } else {
+                            processResult(selection, j, i, queryFromTable, queryJoinTable);
+                        }
                         this.isSameQuery = true;
-                        break;
                     }
                 }
             }
@@ -183,15 +188,5 @@ public class Solution implements Runnable {
     public void run() {
         io();
         solve();
-//        // your application entry point
-//
-//        // sample input process
-//        String string = readLine();
-//
-//        Integer integer = readLineAsInteger();
-//
-//        // sample output process
-//        printLine(string);
-//        printLine(integer);
     }
 }
