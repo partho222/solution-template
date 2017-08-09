@@ -1,11 +1,12 @@
 package com.tigerit.exam;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.tigerit.exam.tariq.solution.Table;
+
+import java.util.*;
 
 import static com.tigerit.exam.IO.*;
-import static com.tigerit.exam.Utils.*;
-import static com.tigerit.exam.QueryParser.*;
+import static com.tigerit.exam.tariq.solution.Utils.*;
+import static com.tigerit.exam.tariq.solution.QueryParser.*;
 
 /**
  * All of your application logic should be placed inside this class.
@@ -14,13 +15,18 @@ import static com.tigerit.exam.QueryParser.*;
  * application's execution points start from inside run method.
  */
 public class Solution implements Runnable {
-    
+
+/*************************************************************************************************************************/
+
     private Map<String, Table> tableMap;
-    boolean isSameQuery;
+    private boolean isSameQuery;
+    private Integer testCount;
+    private List<String> resultStack;
 
-
-    public void input() {
+/*************************************************************************************************************************/
+    private void input() {
         Integer kase = readLineAsInteger();
+        this.testCount = 0;
         while (kase > 0) {
             Integer noOfTable = readLineAsInteger();
             tableMap = new HashMap<>();
@@ -43,14 +49,21 @@ public class Solution implements Runnable {
         }
     }
 
-    public void aliasDetection(String line) {
+    private void aliasDetection(String line) {
         String[] data = getStringArrayFromLine(line);
         if(data.length > 1) {
             this.tableMap.put(data[1].trim(), this.tableMap.get(data[0].trim()));
         }
     }
 
-    public void processResult(String selection, Integer table1row, Integer table2row, Table table1, Table table2) {
+    private void printValue(List<String> resultStack) {
+        Collections.sort(resultStack);
+        for (int i = 0; i < resultStack.size(); i++) {
+            printLine(resultStack.get(i));
+        }
+    }
+
+    private void processResult(String selection, Integer table1row, Integer table2row, Table table1, Table table2) {
         String columnNameOut, valueOut;
         if(selection.equals("*")) {
             Integer table1column = table1.getColumnCount();
@@ -59,17 +72,20 @@ public class Solution implements Runnable {
             Integer[][] table2Data = table2.getData();
 
             columnNameOut = "";
-            for(int i = 0; i < table1column; i++) {
-                columnNameOut += getKeyByValue(table1.getColumnName(), i);
-                columnNameOut += " ";
-            }
-            for(int i = 0; i < table2column; i++) {
-                columnNameOut += getKeyByValue(table2.getColumnName(), i);
-                columnNameOut += " ";
-            }
-            if(!isSameQuery)    printLine(columnNameOut.trim());
-
             valueOut = "";
+
+            if(!this.isSameQuery) {
+                for(int i = 0; i < table1column; i++) {
+                    columnNameOut += getKeyByValue(table1.getColumnName(), i);
+                    columnNameOut += " ";
+                }
+                for(int i = 0; i < table2column; i++) {
+                    columnNameOut += getKeyByValue(table2.getColumnName(), i);
+                    columnNameOut += " ";
+                }
+                printLine(columnNameOut.trim());
+            }
+
             for(int i = 0; i < table1column; i++) {
                 valueOut += table1Data[table1row][i].toString();
                 valueOut += " ";
@@ -78,7 +94,7 @@ public class Solution implements Runnable {
                 valueOut += table2Data[table2row][i].toString();
                 valueOut += " ";
             }
-            printLine(valueOut.trim());
+            this.resultStack.add(valueOut.trim());
         } else {
             String[] selectionParams = selection.split(",");
             String[][] selectedTableAndColumn = new String[selectionParams.length][];
@@ -98,13 +114,14 @@ public class Solution implements Runnable {
                     valueOut += " ";
                 }
             }
-            if(!isSameQuery)    printLine(columnNameOut.trim());
-            printLine(valueOut.trim());
+            if(!this.isSameQuery)    printLine(columnNameOut.trim());
+            this.resultStack.add(valueOut.trim());
         }
     }
 
-    public void processQuery() {
+    private void processQuery() {
         Integer noOfQuery = readLineAsInteger();
+        printLine("Test: " + ++this.testCount);
         while (noOfQuery > 0) {
             String selection = selectLineData(readLine()).trim();
             String fromTable = fromLineData(readLine()).trim();
@@ -112,6 +129,7 @@ public class Solution implements Runnable {
             String joinTable = joinLineData(readLine()).trim();
             aliasDetection(joinTable);
             String onCondition = onLineData(readLine()).trim();
+            readLine();
 
             String[] conditionParams = onCondition.split("=");
             String[] tableColumnName1 = getTableAndColumnName(conditionParams[0]);
@@ -136,8 +154,8 @@ public class Solution implements Runnable {
             for(int i = 0; i < table2Rows; i++) {
                 table2ColumnData[i] = table2Data[i][param2ColumnIndex];
             }
-
             this.isSameQuery = false;
+            resultStack = new ArrayList<>();
             for(int i = 0; i < table1Rows; i++) {
                 for(int j = 0; j < table2Rows; j++) {
                     if(table1ColumnData[i].equals(table2ColumnData[j])) {
@@ -147,18 +165,22 @@ public class Solution implements Runnable {
                     }
                 }
             }
+            printValue(this.resultStack);
+            printLine("");
             noOfQuery--;
         }
     }
 
 
-    public void solve() {
+    private void solve() {
         input();
         processQuery();
     }
+/*************************************************************************************************************************/
 
     @Override
     public void run() {
+        io();
         solve();
 //        // your application entry point
 //
