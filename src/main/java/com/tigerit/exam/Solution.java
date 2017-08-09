@@ -1,5 +1,6 @@
 package com.tigerit.exam;
 
+import com.tigerit.exam.tariq.solution.LexicographicComparator;
 import com.tigerit.exam.tariq.solution.Table;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class Solution implements Runnable {
         this.testCount = 0;
         while (kase > 0) {
             Integer noOfTable = readLineAsInteger();
-            tableMap = new HashMap<>();
+            this.tableMap = new HashMap<>();
             while (noOfTable > 0) {
                 /* table creation operation */
                 String tableName = readLine();
@@ -42,7 +43,7 @@ public class Solution implements Runnable {
                     values = getIntFromLine(readLine());
                     currentTable.insertValue(i, values);
                 }
-                tableMap.put(tableName, currentTable);
+                this.tableMap.put(tableName, currentTable);
                 noOfTable--;
             }
             kase--;
@@ -57,7 +58,7 @@ public class Solution implements Runnable {
     }
 
     private void printValue(List<String> resultStack) {
-        Collections.sort(resultStack);
+        Collections.sort(resultStack, new LexicographicComparator());
         for (int i = 0; i < resultStack.size(); i++) {
             printLine(resultStack.get(i));
         }
