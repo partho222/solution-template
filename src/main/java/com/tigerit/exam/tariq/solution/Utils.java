@@ -1,4 +1,4 @@
-package com.tigerit.exam;
+package com.tigerit.exam.tariq.solution;
 
 import java.util.Map;
 import java.util.Objects;

@@ -1,10 +1,14 @@
-package com.tigerit.exam;
+package com.tigerit.exam.tariq.solution;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is the basic structure
+ * of a database table and holds data
+ */
+
 public class Table {
-    private String alias;
     private Map<String, Integer> columnName;
     private Integer noOfColumn;
     private Integer noOfRow;
@@ -13,7 +17,7 @@ public class Table {
     public Table(Integer noOfColumn, Integer noOfRow) {
         this.noOfColumn = noOfColumn;
         this.noOfRow = noOfRow;
-        this.data = new Integer[noOfColumn][noOfRow];
+        this.data = new Integer[noOfRow][noOfColumn];
     }
 
     public void insertColumnName(String... names) {

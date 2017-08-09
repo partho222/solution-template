@@ -1,7 +1,12 @@
-package com.tigerit.exam;
+package com.tigerit.exam.tariq.solution;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+/**
+ * This class is used to parse query
+ * using regex
+ */
 
 public class QueryParser {
     private static final Pattern selectType = Pattern.compile("SELECT\\s+(.*)\\s*");
