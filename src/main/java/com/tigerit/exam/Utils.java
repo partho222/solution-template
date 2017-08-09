@@ -31,4 +31,13 @@ public class Utils {
         }
         return null;
     }
+
+    public static String[] getTableAndColumnName(String dotBasedName) {
+        String[] splittedData = new String[2];
+        int itr = 0;
+        for (String name : dotBasedName.trim().split("\\.")) {
+            splittedData[itr++] = name.trim();
+        }
+        return splittedData;
+    }
 }
