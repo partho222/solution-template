@@ -171,7 +171,6 @@ public class Solution implements Runnable {
         }
     }
 
-
     private void solve() {
         Integer kase = readLineAsInteger();
         this.testCount = 0;
@@ -186,7 +185,6 @@ public class Solution implements Runnable {
 
     @Override
     public void run() {
-        io();
         solve();
     }
 }
