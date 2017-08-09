@@ -4,6 +4,12 @@ import java.util.Comparator;
 
 import static com.tigerit.exam.tariq.solution.Utils.*;
 
+/**
+ * This class implements Comparator interface
+ * and holds a compare function
+ * for sorting String of numbers lexicographically
+ */
+
 public class LexicographicComparator implements Comparator<String> {
     @Override
     public int compare(String a, String b) {

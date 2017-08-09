@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * This class is used to parse query
- * using regex
+ * patterns using regex
  */
 
 public class QueryParser {

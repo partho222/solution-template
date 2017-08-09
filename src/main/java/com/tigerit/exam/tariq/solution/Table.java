@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is the basic structure
- * of a database table and holds data
+ * This class holds the basic structure
+ * of a database table and store data
  */
 
 public class Table {
